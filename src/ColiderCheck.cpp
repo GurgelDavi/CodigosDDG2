@@ -51,6 +51,7 @@ ColiderCheck::ColiderCheck(Triangle _t1 , Triangle _t2 ,bool &colides) {
 }
 bool ColiderCheck::ParametricCheck(Triangle _t1, vec3 _a, vec3 _b , vec3 &_pointInPLane)
 {
+	_t1.plane();
 	double i0 = (_t1.pA*_a.x) +(_t1.pB*_a.y)+(_t1.pC*_a.z);
 	double i1 = (_t1.pA*_b.x) +(_t1.pB*_b.y)+(_t1.pC*_b.z);
 

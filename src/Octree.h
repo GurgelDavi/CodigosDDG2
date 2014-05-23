@@ -13,6 +13,7 @@
 #include <vector>
 class Octree {
 public:
+
 	vec3 origin;
 	vec3 halfDimension;
 	//Filhos da árvore seguirão o padrão + para distãncia positiva do centro nos eixos

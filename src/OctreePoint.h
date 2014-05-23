@@ -8,9 +8,12 @@
 #ifndef OCTREEPOINT_H_
 #define OCTREEPOINT_H_
 #include "vec3.h"
+
+
 class OctreePoint {
 public:
 	vec3 position;
+
 	OctreePoint() { }
 	OctreePoint(const vec3& position) : position(position) { }
 	inline const vec3& getPosition() const { return position; }
