@@ -6,6 +6,8 @@
  */
 
 #include "BraunnerPoint.h"
+#include <iostream>
+#include <vector>
 
 BraunnerPoint::BraunnerPoint() {
 
@@ -13,7 +15,15 @@ BraunnerPoint::BraunnerPoint() {
 
 
 }
+void BraunnerPoint::insert(Triangle _t1){
+	this->trianglesInThisNode.push_back(_t1);
+}
+void BraunnerPoint::allElementsInThisNode(std::list<Triangle> &_list){
+	//for(auto it = std::begin(this->allElementsInThisNode()); it!=std::end(this->allElementsInThisNode()); ++it)
+	  //  _list.push_back(*it);
+	std::list<Triangle>::iterator it = trianglesInThisNode.begin();
 
+}
 BraunnerPoint::~BraunnerPoint() {
 	// TODO Auto-generated destructor stub
 }
