@@ -23,8 +23,8 @@ public:
 	vec3 origin;
 
 	void insert(Triangle _triangle);
-	void getContainingOctant(vec3 _point);
-	void getAllCollidingtrieanglesInGivenPoint(std::list<Triangle> _listOfCandidates, Triangle _t1);
+	int getContainingOctant(Triangle _triangle);
+	void getAllCollidingtrieanglesInGivenPoint(std::list<Triangle> &_listOfCandidates, Triangle _t1);
 
 	virtual ~BraunnerTree();
 };
