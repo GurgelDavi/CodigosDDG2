@@ -21,7 +21,11 @@ void BraunnerPoint::insert(Triangle _t1){
 void BraunnerPoint::allElementsInThisNode(std::list<Triangle> &_list){
 	//for(auto it = std::begin(this->allElementsInThisNode()); it!=std::end(this->allElementsInThisNode()); ++it)
 	  //  _list.push_back(*it);
-	std::list<Triangle>::iterator it = trianglesInThisNode.begin();
+	//std::list<Triangle>::iterator it = trianglesInThisNode.begin();
+	for (std::list<Triangle>::iterator it = trianglesInThisNode.begin();it!=trianglesInThisNode.end() ; it++)
+	{
+		_list.push_back(*it);
+	}
 
 }
 BraunnerPoint::~BraunnerPoint() {
