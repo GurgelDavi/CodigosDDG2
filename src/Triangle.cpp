@@ -28,10 +28,6 @@ void Triangle::plane()
 		pB = cross_v1xv2.y;
 		pC = cross_v1xv2.z;
 		pD = cross_v1xv2.dot(center);
-
-
-
-
 	}
 Triangle::~Triangle() {
 	// TODO Auto-generated destructor stub

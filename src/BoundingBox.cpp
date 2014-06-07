@@ -104,6 +104,25 @@ bool BoundingBox::insideBox(Triangle _t1){
 
 	return false;
 }
+bool BoundingBox::insideColision(Triangle _t1){
+	for (std::list<Triangle>::iterator it = objectsInThisBox.begin();it!=objectsInThisBox.end() ; it++)
+			{
+			//reduzimos cada triângulo em dois vec3 com seus valores minimos e máximos para acelerar a comparação entre os pontos
+			Triangle t1 = *it;
+			bool colides = false;
+			ColiderCheck col(_t1,t1,colides);
+			if (colides)
+				return colides;
+			}
+	/*Método de colisão por bounding boxes
+	for (std::list<Triangle>::iterator it = objectsInThisBox.begin();it!=objectsInThisBox.end() ; it++)
+	{
+		Triangle t1 = *it;
+		return BoundingBox(t1).insideBox(_t1);
+	}
+	*/
+	return 0;
+}
 
 
 

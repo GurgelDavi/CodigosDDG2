@@ -12,6 +12,7 @@
 #include "vec3.h"
 #include <vector>
 #include <limits>
+#include "ColiderCheck.h"
 class BoundingBox {
 public:
 	std::list<Triangle> objectsInThisBox;
