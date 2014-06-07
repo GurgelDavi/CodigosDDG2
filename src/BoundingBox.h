@@ -18,11 +18,17 @@ public:
 	vec3 bMin,bMax;
 	BoundingBox(Triangle _t1);
 	BoundingBox(std::list<Triangle> _list);
-	int insert(Triangle _t);
+	void insert(Triangle _t);
 	int insert(std::list<Triangle> _list);
 	void myNewForm();
 	vec3 smallest(std::vector<vec3>);
 	vec3 biggest(std::vector<vec3>);
+	double minOfThree(double a,double b, double c);
+	double maxOfThree(double a,double b, double c);
+	vec3 triangleBoxMin(Triangle _t1);
+	vec3 triangleBoxMax(Triangle _t1);
+	bool insideBox(Triangle _t1);
+	bool insideColision(Triangle _t1);
 
 	virtual ~BoundingBox();
 };

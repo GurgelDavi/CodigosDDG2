@@ -12,35 +12,24 @@ BoundingBox::BoundingBox(Triangle _t1) {
 	//double x = std::min((std::min(_t1.a.x,_t1.b.x)),_t1.c.x);
 	//double y = std::min((std::min(_t1.a.y,_t1.b.y)),_t1.c.y);
 	//double z = std::min((std::min(_t1.a.z,_t1.b.z)),_t1.c.z);
-	vec3 currentMin(std::min((std::min(_t1.a.x,_t1.b.x)),_t1.c.x),//xMin
-			std::min((std::min(_t1.a.y,_t1.b.y)),_t1.c.y),//yMin
-			std::min((std::min(_t1.a.z,_t1.b.z)),_t1.c.z));//zMin
-	vec3 currentMax(std::max((std::max(_t1.a.x,_t1.b.x)),_t1.c.x),//x
-				std::max((std::max(_t1.a.y,_t1.b.y)),_t1.c.y),//y
-				std::max((std::max(_t1.a.z,_t1.b.z)),_t1.c.z));//z
+	vec3 currentMin(triangleBoxMin(_t1));
+	vec3 currentMax(triangleBoxMax(_t1));
 	bMax=currentMax;
 	bMin=currentMin;
-
-
-
 }
 
 BoundingBox::~BoundingBox() {
 	// TODO Auto-generated destructor stub
 }
-void BoundingBox::myNewForm(){
+void BoundingBox::myNewForm(){//Esse método deve ser chamado a cada movimentação ou rotação de objetos dentro da bounding box
 	std::vector<vec3> min;
 	std::vector<vec3> max;
 	for (std::list<Triangle>::iterator it = objectsInThisBox.begin();it!=objectsInThisBox.end() ; it++)
 		{
 		//reduzimos cada triângulo em dois vec3 com seus valores minimos e máximos para acelerar a comparação entre os pontos
 		Triangle t1 = *it;
-		vec3 currentMin(std::min((std::min(t1.a.x,t1.b.x)),t1.c.x),//xMin
-					std::min((std::min(t1.a.y,t1.b.y)),t1.c.y),//yMin
-					std::min((std::min(t1.a.z,t1.b.z)),t1.c.z));//zMin
-			vec3 currentMax(std::max((std::max(t1.a.x,t1.b.x)),t1.c.x),//x
-						std::max((std::max(t1.a.y,t1.b.y)),t1.c.y),//y
-						std::max((std::max(t1.a.z,t1.b.z)),t1.c.z));//z
+		vec3 currentMin(triangleBoxMin(t1));
+		vec3 currentMax(triangleBoxMax(t1));
 		min.push_back(currentMin);
 		max.push_back(currentMax);
 		}
@@ -73,3 +62,48 @@ vec3 BoundingBox::biggest(std::vector<vec3> v){
 
 	return vec3(x,y,z);
 }
+void BoundingBox::insert(Triangle _t1){
+	this->objectsInThisBox.push_back(_t1);
+	vec3 currentMin(triangleBoxMin(_t1));
+	vec3 currentMax(triangleBoxMax(_t1));
+	bMin.x = std::min (currentMin.x,bMin.x);
+	bMin.y = std::min (currentMin.y,bMin.y);
+	bMin.z = std::min (currentMin.z,bMin.z);
+
+	bMax.x = std::max (currentMax.x,bMax.x);
+	bMax.y = std::max (currentMax.y,bMax.y);
+	bMax.z = std::max (currentMax.z,bMax.z);
+
+}
+double  BoundingBox::minOfThree(double _a,double _b,double _c){
+	return std::min(std::min(_a,_b),_c);
+}
+double BoundingBox::maxOfThree(double _a,double _b,double _c){
+	return std::max(std::max(_a,_b),_c);
+}
+vec3 BoundingBox::triangleBoxMax(Triangle _t1){
+	return vec3(maxOfThree(_t1.a.x,_t1.b.x,_t1.c.x),maxOfThree(_t1.a.y,_t1.b.y,_t1.c.y),maxOfThree(_t1.a.z,_t1.b.z,_t1.c.z));
+}
+
+vec3 BoundingBox::triangleBoxMin(Triangle _t1){
+	return vec3(minOfThree(_t1.a.x,_t1.b.x,_t1.c.x),minOfThree(_t1.a.y,_t1.b.y,_t1.c.y),minOfThree(_t1.a.z,_t1.b.z,_t1.c.z));
+}
+bool BoundingBox::insideBox(Triangle _t1){
+	vec3 currentMin(triangleBoxMin(_t1));
+	vec3 currentMax(triangleBoxMax(_t1));
+	if (currentMin==bMin) return true;
+	if (currentMax==bMax) return true;
+
+	if ((bMin.x == std::min (currentMin.x,bMin.x) &&
+		 bMin.y == std::min (currentMin.y,bMin.y)&&
+		 bMin.z == std::min (currentMin.z,bMin.z))&&
+			bMax.x == std::max (currentMax.x,bMax.x)&&
+			bMax.y == std::max (currentMax.y,bMax.y)&&
+			bMax.z == std::max (currentMax.z,bMax.z)
+			) return true;
+
+	return false;
+}
+
+
+
