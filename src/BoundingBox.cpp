@@ -9,9 +9,17 @@
 
 BoundingBox::BoundingBox(Triangle _t1) {
 	this->objectsInThisBox.push_back(_t1);
-	//vec3 currentMin(std::min{_t1.a.x,_t1.b.x,_t1.c.x},std::min{_t1.a.y,_t1.b.y,_t1.c.y},std::min{_t1.a.z,_t1.b.z,_t1.c.z});
-	//vec3 currentMax(std::max{_t1.a.x,_t1.b.x,_t1.c.x},std::max{_t1.a.y,_t1.b.y,_t1.c.y},std::max{_t1.a.z,_t1.b.z,_t1.c.z});
-
+	//double x = std::min((std::min(_t1.a.x,_t1.b.x)),_t1.c.x);
+	//double y = std::min((std::min(_t1.a.y,_t1.b.y)),_t1.c.y);
+	//double z = std::min((std::min(_t1.a.z,_t1.b.z)),_t1.c.z);
+	vec3 currentMin(std::min((std::min(_t1.a.x,_t1.b.x)),_t1.c.x),//xMin
+			std::min((std::min(_t1.a.y,_t1.b.y)),_t1.c.y),//yMin
+			std::min((std::min(_t1.a.z,_t1.b.z)),_t1.c.z));//zMin
+	vec3 currentMax(std::max((std::max(_t1.a.x,_t1.b.x)),_t1.c.x),//x
+				std::max((std::max(_t1.a.y,_t1.b.y)),_t1.c.y),//y
+				std::max((std::max(_t1.a.z,_t1.b.z)),_t1.c.z));//z
+	bMax=currentMax;
+	bMin=currentMin;
 
 
 
@@ -27,10 +35,14 @@ void BoundingBox::myNewForm(){
 		{
 		//reduzimos cada triângulo em dois vec3 com seus valores minimos e máximos para acelerar a comparação entre os pontos
 		Triangle t1 = *it;
-		//vec3 currentMin(std::min{t1.a.x,t1.b.x,t1.c.x},std::min{t1.a.y,t1.b.y,t1.c.y},std::min{t1.a.z,t1.b.z,t1.c.z});
-		//vec3 currentMax(std::max{t1.a.x,t1.b.x,t1.c.x},std::max{t1.a.y,t1.b.y,t1.c.y},std::max{t1.a.z,t1.b.z,t1.c.z});
-		//min.push_back();
-		//max.push_back();
+		vec3 currentMin(std::min((std::min(t1.a.x,t1.b.x)),t1.c.x),//xMin
+					std::min((std::min(t1.a.y,t1.b.y)),t1.c.y),//yMin
+					std::min((std::min(t1.a.z,t1.b.z)),t1.c.z));//zMin
+			vec3 currentMax(std::max((std::max(t1.a.x,t1.b.x)),t1.c.x),//x
+						std::max((std::max(t1.a.y,t1.b.y)),t1.c.y),//y
+						std::max((std::max(t1.a.z,t1.b.z)),t1.c.z));//z
+		min.push_back(currentMin);
+		max.push_back(currentMax);
 		}
 	bMin = smallest(min);
 	bMax = biggest(max);
