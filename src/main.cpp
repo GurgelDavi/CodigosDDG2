@@ -1,98 +1,66 @@
-#include <cstdlib>
-#include <cstdio>
-#include <vector>
-#include <algorithm>
+#include <iostream>
+#include "BraunnerTree.h"
+#include "ColiderCheck.h"
+#include "vec3.h"
+#include "Triangle.h"
 
-#include "Octree.h"
-#include "Stopwatch.h"
-
-
-// Used for testing
-std::vector<vec3> points;
-Octree *octree;
-OctreePoint *octreePoints;
-vec3 qmin, qmax;
-
-float rand11() // Random number between [-1,1]
-{ return -1.f + (2.f*rand()) * (1.f / RAND_MAX); }
-
-vec3 randvec3() // Random vector with components in the range [-1,1]
-{ return vec3(rand11(), rand11(), rand11()); }
-
-// Determine if 'point' is within the bounding box [bmin, bmax]
-bool naivePointInBox(const vec3& point, const vec3& bmin, const vec3& bmax) {
-	return
-		point.x >= bmin.x &&
-		point.y >= bmin.y &&
-		point.z >= bmin.z &&
-		point.x <= bmax.x &&
-		point.y <= bmax.y &&
-		point.z <= bmax.z;
-}
-
-void init() {
-	// Create a new Octree centered at the origin
-	// with physical dimension 2x2x2
-	octree = new Octree(vec3(0,0,0), vec3(1,1,1));
-
-	// Create a bunch of random points
-	const int nPoints = 1 * 1000 * 1000;
-	for(int i=0; i<nPoints; ++i) {
-		points.push_back(randvec3());
-	}
-	printf("Created %ld points\n", points.size()); fflush(stdout);
-
-	// Insert the points into the octree
-	octreePoints = new OctreePoint[nPoints];
-	for(int i=0; i<nPoints; ++i) {
-		octreePoints[i].setPosition(points[i]);
-		octree->insert(octreePoints + i);
-	}
-	printf("Inserted points to octree\n"); fflush(stdout);
-
-	// Create a very small query box. The smaller this box is
-	// the less work the octree will need to do. This may seem
-	// like it is exagerating the benefits, but often, we only
-	// need to know very nearby objects.
-	qmin = vec3(-.05,-.05,-.05);
-	qmax = vec3(.05,.05,.05);
-
-	// Remember: In the case where the query is relatively close
-	// to the size of the whole octree space, the octree will
-	// actually be a good bit slower than brute forcing every point!
-}
-
-// Query using brute-force
-void testNaive() {
-	double start = stopwatch();
-
-	std::vector<int> results;
-	for(int i=0; i<points.size(); ++i) {
-		if(naivePointInBox(points[i], qmin, qmax)) {
-			results.push_back(i);
-		}
-	}
-
-	double T = stopwatch() - start;
-	printf("testNaive found %ld points in %.5f sec.\n", results.size(), T);
-}
-
-// Query using Octree
-void testOctree() {
-	double start = stopwatch();
-
-	std::vector<OctreePoint*> results;
-	octree->getPointsInsideBox(qmin, qmax, results);
-
-	double T = stopwatch() - start;
-	printf("testOctree found %ld points in %.5f sec.\n", results.size(), T);
-}
 
 
 int main(int argc, char **argv) {
-	init();
-	testNaive();
-	testOctree();
+	 std::cout << "tirangle 1\n a:";
+	 vec3 a(0,0,0);
+	 vec3 b(0.5,1,0);
+	 vec3 c(1,0,0);
+	 std::cout << a;
+	 std::cout << "\n b:";
+	 std::cout << b;
+	 std::cout << "\n c:";
+	 std::cout << c;
+	 std::cout << "\n";
+	 Triangle t1(a,b,c);
+	 t1.plane();
+	 std::cout << "t1 center: \n";
+	 std::cout << t1.center;
+	 std::cout << "\nt1 Normal: \n";
+	 std::cout << t1.cross_v1xv2;
+	 std::cout << "\nTriangle2\n a:";
+	 a.x=t1.a.x; a.y=t1.center.y;a.z=t1.a.z-0.5;
+	 b.x=.5;b.y=t1.center.y;b.z=1;
+	 c.x=1;c.y=t1.center.y;c.z=0.5;
+	 std::cout << a;
+	 std::cout << "\n b:";
+	 std::cout << b;
+	 std::cout << "\n c:";
+	 std::cout << c;
+	 std::cout << "\n";
+	 Triangle t2(a,b,c);
+	 a.x=10;a.y=10;a.z=0;
+	 b.x=10;b.y=15;c.z=0;
+	 c.x=15;c.y=10;c.z=0;
+	 Triangle t3(a,b,c);
+	 bool colide=false;
+	 ColiderCheck col(t1,t2,colide);
+	 if (colide)
+		 std::cout << "colide\n";
+
+	 ColiderCheck col2(t1,t3,colide);
+	 if (!colide)
+		 std::cout << "não colide t3 com t1 \n";
+
+	 ColiderCheck col3(t1,t1,colide);
+	 if (colide)
+		 std::cout << "t1 colide com um triângulo igual a ele \n";
+	 //testes da Octree
+	 vec3 TreeCenter(0,0,0);
+	 vec3 halfDimension(1,1,1);
+	 BraunnerTree bt (3,halfDimension,TreeCenter);
+	 bt.insert(t1);
+	 std::cout << bt.getContainingOctant(t1);
+	 std::cout << "\n";
+	 std::cout << bt.getContainingOctant(t2);
+	 std::cout << "\n";
+
+
 
 	return 0;
 }
