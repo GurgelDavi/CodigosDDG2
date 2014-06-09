@@ -10,6 +10,7 @@
 #include "vec3.h"
 #include "BraunnerPoint.h"
 #include "BraunnerTree.h"
+#include "BoundingBox.h"
 #include <list>
 #include <vector>
 #include <list>

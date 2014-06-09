@@ -7,7 +7,7 @@
 
 
 int main(int argc, char **argv) {
-	 std::cout << "tirangle 1\n a:";
+	 std::cout << "triangle 1\n a:";
 	 vec3 a(0,0,0);
 	 vec3 b(0.5,1,0);
 	 vec3 c(1,0,0);
@@ -50,17 +50,35 @@ int main(int argc, char **argv) {
 	 ColiderCheck col3(t1,t1,colide);
 	 if (colide)
 		 std::cout << "t1 colide com um triângulo igual a ele \n";
+	 //Triangle t4(vec3(.5,0,0),vec3(1,1,0),vec3(1.5,0,0));
+
+
+
+
+	 BoundingBox box(t1);
+	 if (box.colision(t2))
+		 std::cout<< "Colide"<< std::endl;
+	 if ( box.insideBox(BoundingBox(t3)) )
+		 std::cout << "Inside box"<< std::endl;
+	 if (box.insideBox(vec3(9,.5,0)))
+		 std::cout << "true"<< std::endl;
+
+
+
+
+
+	 /*
 	 //testes da Octree
 	 vec3 TreeCenter(0,0,0);
 	 vec3 halfDimension(1,1,1);
+
 	 BraunnerTree bt (3,halfDimension,TreeCenter);
 	 bt.insert(t1);
 	 std::cout << bt.getContainingOctant(t1);
 	 std::cout << "\n";
 	 std::cout << bt.getContainingOctant(t2);
 	 std::cout << "\n";
-
-
+	 */
 
 	return 0;
 }

@@ -16,7 +16,8 @@
 class BoundingBox {
 public:
 	std::list<Triangle> objectsInThisBox;
-	vec3 bMin,bMax;
+	vec3 bMin,bMax,bCenter;
+	double  height , width , depth;
 	BoundingBox(Triangle _t1);
 	BoundingBox(std::list<Triangle> _list);
 	void insert(Triangle _t);
@@ -24,12 +25,22 @@ public:
 	void myNewForm();
 	vec3 smallest(std::vector<vec3>);
 	vec3 biggest(std::vector<vec3>);
+
 	double minOfThree(double a,double b, double c);
 	double maxOfThree(double a,double b, double c);
+
 	vec3 triangleBoxMin(Triangle _t1);
 	vec3 triangleBoxMax(Triangle _t1);
+
 	bool insideBox(Triangle _t1);
+	bool insideBox(BoundingBox _externalBox);
+	bool insideBox(vec3 _point);
+	bool interceptBox(BoundingBox _box);
+
 	bool insideColision(Triangle _t1);
+	bool colision(Triangle _t1);
+	bool colision(BoundingBox _externalBox);
+
 
 	virtual ~BoundingBox();
 };

@@ -68,21 +68,21 @@ int BraunnerTree::getContainingOctant(Triangle _triangle){
 }
 
 void BraunnerTree::getAllCollidingtrieanglesInGivenPoint(std::list<Triangle> &_listOfCandidates, Triangle _t1){
-	int a =getContainingOctant(_t1);//mudar opra dentro do if
-	if (this->depth==0)
+
+	if (depth != 0)
 	{
-		this->nodeObjects->allElementsInThisNode(_listOfCandidates);//se não há árvores filhas
-	}else
-	{
-		daughters[a]->getAllCollidingtrieanglesInGivenPoint(_listOfCandidates,_t1);
-		this->nodeObjects->allElementsInThisNode(_listOfCandidates);
-		if (depth!=0 && a==8){
-			for (int i=0;i<8;i++)
-			{
+		int NextOctant = getContainingOctant(_t1);
+		nodeObjects->allElementsInThisNode(_listOfCandidates);
+		if (NextOctant==8)
+		{
+			for (int i=0;i<8;i++){
 				daughters[i]->getAllCollidingtrieanglesInGivenPoint(_listOfCandidates,_t1);
 			}
+		}else {
+			daughters[NextOctant]->getAllCollidingtrieanglesInGivenPoint(_listOfCandidates,_t1);
 		}
 	}
+
 }
 
 BraunnerTree::~BraunnerTree() {

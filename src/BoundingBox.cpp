@@ -16,6 +16,10 @@ BoundingBox::BoundingBox(Triangle _t1) {
 	vec3 currentMax(triangleBoxMax(_t1));
 	bMax=currentMax;
 	bMin=currentMin;
+	bCenter = ((bMin+bMax)*.5);
+	height = std::abs(bMax.y - bCenter.y);
+	width = std::abs(bMax.x - bCenter.x);
+	depth = std::abs(bMax.z - bCenter.z);
 }
 
 BoundingBox::~BoundingBox() {
@@ -35,6 +39,7 @@ void BoundingBox::myNewForm(){//Esse método deve ser chamado a cada movimentaç
 		}
 	bMin = smallest(min);
 	bMax = biggest(max);
+	bCenter = ((bMin+bMax)*.5);
 }
 
 vec3 BoundingBox::smallest(std::vector<vec3> v){
@@ -73,6 +78,7 @@ void BoundingBox::insert(Triangle _t1){
 	bMax.x = std::max (currentMax.x,bMax.x);
 	bMax.y = std::max (currentMax.y,bMax.y);
 	bMax.z = std::max (currentMax.z,bMax.z);
+	bCenter = ((bMin+bMax)*.5);
 
 }
 double  BoundingBox::minOfThree(double _a,double _b,double _c){
@@ -89,18 +95,42 @@ vec3 BoundingBox::triangleBoxMin(Triangle _t1){
 	return vec3(minOfThree(_t1.a.x,_t1.b.x,_t1.c.x),minOfThree(_t1.a.y,_t1.b.y,_t1.c.y),minOfThree(_t1.a.z,_t1.b.z,_t1.c.z));
 }
 bool BoundingBox::insideBox(Triangle _t1){
-	vec3 currentMin(triangleBoxMin(_t1));
-	vec3 currentMax(triangleBoxMax(_t1));
+	if (insideBox(_t1.a))
+		if (insideBox(_t1.b))
+			if (insideBox(_t1.c))
+				return true;
+	return false;
+}
+bool BoundingBox::insideBox(vec3 _point){
+	if ((_point.x > bMin.x)&&(_point.x<bMax.x))
+		if ((_point.y > bMin.y)&&(_point.y > bMin.y))
+			if((_point.z > bMin.z)&&(_point.z > bMin.z))
+				return true;
+
+	return false;
+}
+bool BoundingBox::insideBox(BoundingBox _box){
+	vec3 currentMin = _box.bMin;
+	vec3 currentMax = _box.bMax;
 	if (currentMin==bMin) return true;
 	if (currentMax==bMax) return true;
 
-	if ((bMin.x == std::min (currentMin.x,bMin.x) &&
-		 bMin.y == std::min (currentMin.y,bMin.y)&&
-		 bMin.z == std::min (currentMin.z,bMin.z))&&
-			bMax.x == std::max (currentMax.x,bMax.x)&&
-			bMax.y == std::max (currentMax.y,bMax.y)&&
-			bMax.z == std::max (currentMax.z,bMax.z)
-			) return true;
+	/*if ((std::abs((bCenter.x + _box.bCenter.x)<=(width+_box.width)))&&
+			(std::abs((bCenter.y + _box.bCenter.y)<=(height+_box.height)))&&
+			(std::abs((bCenter.z + _box.bCenter.z)<=(depth+_box.depth))))
+			return true;*/
+
+	return false;
+}
+bool BoundingBox::interceptBox(BoundingBox( _box)){
+	vec3 currentMin = _box.bMin;
+	vec3 currentMax = _box.bMax;
+	if (currentMin==bMin) return true;
+	if (currentMax==bMax) return true;
+	if ((std::abs((bCenter.x + _box.bCenter.x)<=(width+_box.width)))&&
+		(std::abs((bCenter.y + _box.bCenter.y)<=(height+_box.height)))&&
+		(std::abs((bCenter.z + _box.bCenter.z)<=(depth+_box.depth))))
+			return true;
 
 	return false;
 }
@@ -121,7 +151,30 @@ bool BoundingBox::insideColision(Triangle _t1){
 		return BoundingBox(t1).insideBox(_t1);
 	}
 	*/
-	return 0;
+	return false;
+}
+bool BoundingBox::colision(Triangle _t1){
+	if (insideBox(_t1))
+		if (insideColision(_t1))
+			return true;
+	return false;
+}
+bool BoundingBox::colision(BoundingBox _box){
+	if (insideBox(_box))
+		for (std::list<Triangle>::iterator it = objectsInThisBox.begin();it!=objectsInThisBox.end() ; it++)
+		{
+			Triangle t1 = *it;
+			for (std::list<Triangle>::iterator _it = _box.objectsInThisBox.begin();it!=_box.objectsInThisBox.end();_it++)
+			{
+				Triangle _t1 = *_it;
+				bool colides = false;
+				ColiderCheck(_t1,t1,colides);
+				if (colides)
+				return colides;
+			}
+		};
+
+	return false;
 }
 
 
