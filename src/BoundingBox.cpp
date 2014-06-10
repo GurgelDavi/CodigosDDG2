@@ -102,9 +102,9 @@ bool BoundingBox::insideBox(Triangle _t1){
 	return false;
 }
 bool BoundingBox::insideBox(vec3 _point){
-	if ((_point.x > bMin.x)&&(_point.x<bMax.x))
-		if ((_point.y > bMin.y)&&(_point.y > bMin.y))
-			if((_point.z > bMin.z)&&(_point.z > bMin.z))
+	if (((std::abs((bCenter.x + _point.x)*2<=(width)))&&
+			(std::abs((bCenter.y + _point.y)*2<=(height)))&&
+			(std::abs((bCenter.z + _point.z)*2<=(depth)))))
 				return true;
 
 	return false;
@@ -160,7 +160,7 @@ bool BoundingBox::colision(Triangle _t1){
 	return false;
 }
 bool BoundingBox::colision(BoundingBox _box){
-	if (insideBox(_box))
+	if (interceptBox(_box))
 		for (std::list<Triangle>::iterator it = objectsInThisBox.begin();it!=objectsInThisBox.end() ; it++)
 		{
 			Triangle t1 = *it;

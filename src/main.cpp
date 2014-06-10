@@ -7,10 +7,11 @@
 
 
 int main(int argc, char **argv) {
+	 //Testes de Colisão pura (triângulo a triânglo
 	 std::cout << "triangle 1\n a:";
-	 vec3 a(0,0,0);
+	 vec3 a(0,-2,-.3);
 	 vec3 b(0.5,1,0);
-	 vec3 c(1,0,0);
+	 vec3 c(1,0,.3);
 	 std::cout << a;
 	 std::cout << "\n b:";
 	 std::cout << b;
@@ -41,7 +42,7 @@ int main(int argc, char **argv) {
 	 bool colide=false;
 	 ColiderCheck col(t1,t2,colide);
 	 if (colide)
-		 std::cout << "colide\n";
+		 std::cout << "t1 e t2 colidem\n";
 
 	 ColiderCheck col2(t1,t3,colide);
 	 if (!colide)
@@ -54,20 +55,24 @@ int main(int argc, char **argv) {
 
 
 
-
+	 //Bounding Box Tests
 	 BoundingBox box(t1);
-	 if (box.colision(t2))
-		 std::cout<< "Colide"<< std::endl;
-	 if ( box.insideBox(BoundingBox(t3)) )
-		 std::cout << "Inside box"<< std::endl;
+	 if (box.colision(BoundingBox(t1)))
+		 std::cout<< "Bounding boxes iguais colidem"<< std::endl;
+	 if (! box.insideBox(BoundingBox(t3)) )
+		 std::cout << "t3 fora do alcance da box"<< std::endl;
 	 if (box.insideBox(vec3(9,.5,0)))
 		 std::cout << "true"<< std::endl;
+	 if (box.interceptBox((BoundingBox(t2))))
+		 std::cout<< "Bounding box de t2 e t1 colidem"<< std::endl;
+	 if (!box.interceptBox((BoundingBox(t3))))
+	 	 std::cout<< "Bounding box de t3 e t1 NÃO colidem"<< std::endl;
+	 if (box.colision((BoundingBox(t2))))
+		 std::cout<< "Elementos de t1 e t2 colidem"<< std::endl;
+	 if (!box.colision((BoundingBox(t3))))
+	 	 std::cout<< "Elementos de t1 e t3 NÃO colidem"<< std::endl;
 
 
-
-
-
-	 /*
 	 //testes da Octree
 	 vec3 TreeCenter(0,0,0);
 	 vec3 halfDimension(1,1,1);
@@ -78,7 +83,10 @@ int main(int argc, char **argv) {
 	 std::cout << "\n";
 	 std::cout << bt.getContainingOctant(t2);
 	 std::cout << "\n";
-	 */
+
 
 	return 0;
 }
+
+
+
