@@ -82,6 +82,9 @@ void BraunnerTree::getAllCollidingtrieanglesInGivenPoint(std::list<Triangle> &_l
 			daughters[NextOctant]->getAllCollidingtrieanglesInGivenPoint(_listOfCandidates,_t1);
 		}
 	}
+	if (depth==0){
+		nodeObjects->allElementsInThisNode(_listOfCandidates);
+	}
 
 }
 

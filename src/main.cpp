@@ -74,15 +74,15 @@ int main(int argc, char **argv) {
 
 
 	 //testes da Octree
-	 vec3 TreeCenter(0,0,0);
-	 vec3 halfDimension(1,1,1);
+	 vec3 TreeCenter(2,-1,2);
+	 vec3 halfDimension(10,10,10);
 
 	 BraunnerTree bt (3,halfDimension,TreeCenter);
 	 bt.insert(t1);
 	 std::cout << bt.getContainingOctant(t1);
-	 std::cout << "\n";
+	 std::cout << std::endl;
 	 std::cout << bt.getContainingOctant(t2);
-	 std::cout << "\n";
+	 std::cout << std::endl;
 
 
 	return 0;
