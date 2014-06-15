@@ -21,7 +21,8 @@ public:
 	int depth ;
 	vec3 halfDimension;
 	BraunnerPoint *nodeObjects;
-	vec3 origin;
+	vec3 origin ;
+
 
 	void insert(Triangle _triangle);
 	int getContainingOctant(Triangle _triangle);
