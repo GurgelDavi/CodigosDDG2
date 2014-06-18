@@ -19,7 +19,9 @@ public:
 	vec3 bMin,bMax,bCenter;
 	double  height , width , depth;
 	BoundingBox(Triangle _t1);
+	BoundingBox();
 	BoundingBox(std::list<Triangle> _list);
+	BoundingBox(vec3 _bMin,vec3 _bMax);
 	void insert(Triangle _t);
 	int insert(std::list<Triangle> _list);
 	void myNewForm();

@@ -16,6 +16,7 @@ BraunnerTree::BraunnerTree(int _depth,vec3 _halfDimension, vec3 _center){
 		this->origin = _center;
 		this->halfDimension = _halfDimension;
 		this->nodeObjects = new BraunnerPoint();
+		myBox = BoundingBox(origin-halfDimension,origin+halfDimension);
 		for(int i=0; i<8; ++i)
 			{
 			// Calcular a nova bounding box das folhas (ou ramos)
@@ -31,12 +32,12 @@ BraunnerTree::BraunnerTree(int _depth,vec3 _halfDimension, vec3 _center){
 }
 
 void BraunnerTree::insert(Triangle _t1){
-	if ( BraunnerTree::getContainingOctant(_t1)==8 || depth==0)
-		this->nodeObjects->insert(_t1);
-	else {
-		daughters[BraunnerTree::getContainingOctant(_t1)]->insert(_t1);
-	}
-
+	if (myBox.insideBox(_t1))
+		if ( BraunnerTree::getContainingOctant(_t1)==8 || depth==0)
+			this->nodeObjects->insert(_t1);
+		else {
+			daughters[BraunnerTree::getContainingOctant(_t1)]->insert(_t1);
+		}
 }
 int BraunnerTree::getContainingOctant(Triangle _triangle){
 	int oct = 0;

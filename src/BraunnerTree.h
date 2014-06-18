@@ -22,12 +22,10 @@ public:
 	vec3 halfDimension;
 	BraunnerPoint *nodeObjects;
 	vec3 origin ;
-
-
+	BoundingBox myBox;
 	void insert(Triangle _triangle);
 	int getContainingOctant(Triangle _triangle);
 	void getAllCollidingtrieanglesInGivenPoint(std::list<Triangle> &_listOfCandidates, Triangle _t1);
-
 	virtual ~BraunnerTree();
 };
 

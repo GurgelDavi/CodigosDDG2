@@ -21,7 +21,23 @@ BoundingBox::BoundingBox(Triangle _t1) {
 	width = std::abs(bMax.x - bCenter.x);
 	depth = std::abs(bMax.z - bCenter.z);
 }
+BoundingBox::BoundingBox(vec3 _bMin,vec3 _bMax) {
+	//double x = std::min((std::min(_t1.a.x,_t1.b.x)),_t1.c.x);
+	//double y = std::min((std::min(_t1.a.y,_t1.b.y)),_t1.c.y);
+	//double z = std::min((std::min(_t1.a.z,_t1.b.z)),_t1.c.z);
+	bMax=_bMax;
+	bMin=_bMin;
+	bCenter = ((bMin+bMax)*.5);
+	height = std::abs(bMax.y - bCenter.y);
+	width = std::abs(bMax.x - bCenter.x);
+	depth = std::abs(bMax.z - bCenter.z);
+}
+BoundingBox::BoundingBox() {
+	//double x = std::min((std::min(_t1.a.x,_t1.b.x)),_t1.c.x);
+	//double y = std::min((std::min(_t1.a.y,_t1.b.y)),_t1.c.y);
+	//double z = std::min((std::min(_t1.a.z,_t1.b.z)),_t1.c.z);
 
+}
 BoundingBox::~BoundingBox() {
 	// TODO Auto-generated destructor stub
 }

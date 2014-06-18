@@ -13,10 +13,10 @@ mesh1(_meshList1),mesh2(_meshList2),camera(_cam) , myCenterPos(_myPos), distance
 }
 double LodObject::updateDist(){
 
-	double d=  std::sqrt((myCenterPos.x - camera.x)*(myCenterPos.x - camera.x) +
+	double d= std::sqrt((myCenterPos.x - camera.x)*(myCenterPos.x - camera.x) +
 							(myCenterPos.y - camera.y)*(myCenterPos.y - camera.y) +
 								(myCenterPos.z - camera.z)*(myCenterPos.z - camera.z) );
-	if (d >= distance)
+	if (d > distance)
 			lowResDisplay=true;
 	if (d <= distance)
 			lowResDisplay=false;

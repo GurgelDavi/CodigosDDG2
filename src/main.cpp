@@ -91,6 +91,19 @@ int main(int argc, char **argv) {
 	 std::cout << bt.daughters[2]->getContainingOctant(t2)<< std::endl;
 	 std::cout<< "mas não consegue ser mais especifico pois depois ele ocupa mais de 1 octeto"<< std::endl;
 	 std::cout << bt.daughters[2]->daughters[5]->getContainingOctant(t2)<< std::endl;
+	 std::cout<< "todos objetos colidindo"<<std::endl;
+	 std::list<Triangle> colidingList;
+	 bt.getAllCollidingtrieanglesInGivenPoint(colidingList,t2);
+	 for (std::list<Triangle>::iterator it = colidingList.begin();it!=colidingList.end() ; it++)
+	 		{
+	 		Triangle t1 = *it;
+	 		std::cout<< "a:";
+	 		std::cout << t1.a <<std::endl;
+	 		std::cout<< "b:";
+	 		std::cout << t1.b <<std::endl;
+	 		std::cout<< "c:";
+	 		std::cout << t1.c <<std::endl;
+	 		}
 
 	 std::cout << "--------------------Testes de Lod --------------------------"<<std::endl;
 	 std::list<Triangle> mesh1;
@@ -106,12 +119,13 @@ int main(int argc, char **argv) {
 		 std::cout<<"Low res display"<<std::endl;
 	 else
 		 std::cout<<"Normal res display"<<std::endl;
-	 lodTest.myCenterPos = vec3(1,1,1);
+	 lodTest.myCenterPos = vec3(3,3,3);
 	 lodTest.updateDist();
 	 if (lodTest.lowResDisplay)
 	 		 std::cout<<"Low res display"<<std::endl;
 	 	 else
 	 		 std::cout<<"Normal res display"<<std::endl;
+
 
 
 	return 0;
