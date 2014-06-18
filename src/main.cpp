@@ -81,6 +81,7 @@ int main(int argc, char **argv) {
 
 	 BraunnerTree bt (3,halfDimension,TreeCenter);
 	 bt.insert(t1);
+
 	 std::cout<< "t1 entra no maior octante"<< std::endl;
 	 std::cout << bt.getContainingOctant(t1);
 	 std::cout << std::endl;
@@ -103,6 +104,7 @@ int main(int argc, char **argv) {
 	 		std::cout << t1.b <<std::endl;
 	 		std::cout<< "c:";
 	 		std::cout << t1.c <<std::endl;
+	 		std::cout << "Próximo triângulo"<<std::endl;
 	 		}
 
 	 std::cout << "--------------------Testes de Lod --------------------------"<<std::endl;
