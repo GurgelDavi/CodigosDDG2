@@ -17,7 +17,7 @@ public:
 	vec3 myCenterPos;
 	std::list<Triangle> mesh1;
 	std::list<Triangle> mesh2;
-	LodObject(std::list<Triangle> _meshList1,std::list<Triangle> _meshList2, vec3 _cam, vec3 _myPos);
+	LodObject(std::list<Triangle> _meshList1,std::list<Triangle> _meshList2, vec3 _cam, vec3 _myPos,double _dist);
 	double updateDist();
 	void displayMesh(std::list<Triangle> &_meshList);
 	int nowDisplaying();

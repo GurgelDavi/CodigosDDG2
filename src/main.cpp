@@ -3,6 +3,7 @@
 #include "ColiderCheck.h"
 #include "vec3.h"
 #include "Triangle.h"
+#include "LodObject.h"
 
 
 
@@ -39,6 +40,7 @@ int main(int argc, char **argv) {
 	 b.x=10;b.y=15;c.z=0;
 	 c.x=15;c.y=10;c.z=0;
 	 Triangle t3(a,b,c);
+	 std::cout << "-------------Colisão triângulo a triângulo-------------------------"<<std::endl;
 	 bool colide=false;
 	 ColiderCheck col(t1,t2,colide);
 	 if (colide)
@@ -54,7 +56,7 @@ int main(int argc, char **argv) {
 	 //Triangle t4(vec3(.5,0,0),vec3(1,1,0),vec3(1.5,0,0));
 
 
-
+	 std::cout << "----------------------Bounding Boxes------------------"<<std::endl;
 	 //Bounding Box Tests
 	 BoundingBox box(t1);
 	 if (box.colision(BoundingBox(t1)))
@@ -71,7 +73,7 @@ int main(int argc, char **argv) {
 		 std::cout<< "Elementos de t1 e t2 colidem"<< std::endl;
 	 if (!box.colision((BoundingBox(t3))))
 	 	 std::cout<< "Elementos de t1 e t3 NÃO colidem"<< std::endl;
-
+	 std::cout << "--------------------Testes da Octree------------------"<<std::endl;
 
 	 //testes da Octree
 	 vec3 TreeCenter(2,-1,2);
@@ -79,10 +81,37 @@ int main(int argc, char **argv) {
 
 	 BraunnerTree bt (3,halfDimension,TreeCenter);
 	 bt.insert(t1);
+	 std::cout<< "t1 entra no maior octante"<< std::endl;
 	 std::cout << bt.getContainingOctant(t1);
 	 std::cout << std::endl;
+	 std::cout<< "t2 entra no segundo octante do maior octante"<< std::endl;
 	 std::cout << bt.getContainingOctant(t2);
 	 std::cout << std::endl;
+	 std::cout<< "e no quinto octante da segunda geração da árvore"<< std::endl;
+	 std::cout << bt.daughters[2]->getContainingOctant(t2)<< std::endl;
+	 std::cout<< "mas não consegue ser mais especifico pois depois ele ocupa mais de 1 octeto"<< std::endl;
+	 std::cout << bt.daughters[2]->daughters[5]->getContainingOctant(t2)<< std::endl;
+
+	 std::cout << "--------------------Testes de Lod --------------------------"<<std::endl;
+	 std::list<Triangle> mesh1;
+	 std::list<Triangle> mesh2;
+	 mesh1.push_back(t1);
+	 mesh1.push_back(t2);
+	 vec3 myPos(10,10,10);
+	 vec3 camPos(0,0,0);
+	 double dist = 10;
+	 LodObject lodTest(mesh1,mesh2,camPos,myPos,dist);
+	 lodTest.updateDist();
+	 if (lodTest.lowResDisplay)
+		 std::cout<<"Low res display"<<std::endl;
+	 else
+		 std::cout<<"Normal res display"<<std::endl;
+	 lodTest.myCenterPos = vec3(1,1,1);
+	 lodTest.updateDist();
+	 if (lodTest.lowResDisplay)
+	 		 std::cout<<"Low res display"<<std::endl;
+	 	 else
+	 		 std::cout<<"Normal res display"<<std::endl;
 
 
 	return 0;

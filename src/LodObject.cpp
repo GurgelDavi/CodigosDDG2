@@ -7,8 +7,8 @@
 
 #include "LodObject.h"
 
-LodObject::LodObject(std::list<Triangle> _meshList1,std::list<Triangle> _meshList2, vec3 _cam, vec3 _myPos) :
-mesh1(_meshList1),mesh2(_meshList2),camera(_cam) , myCenterPos(_myPos), distance(10){
+LodObject::LodObject(std::list<Triangle> _meshList1,std::list<Triangle> _meshList2, vec3 _cam, vec3 _myPos,double _dist) :
+mesh1(_meshList1),mesh2(_meshList2),camera(_cam) , myCenterPos(_myPos), distance(_dist){
 
 }
 double LodObject::updateDist(){
