@@ -15,7 +15,6 @@ BraunnerTree::BraunnerTree(int _depth,vec3 _halfDimension, vec3 _center){
 		this->depth = depth;
 		this->origin = _center;
 		this->halfDimension = _halfDimension;
-		this->nodeObjects = new BraunnerPoint();
 		myBox = BoundingBox(origin-halfDimension,origin+halfDimension);
 		for(int i=0; i<8; ++i)
 			{
@@ -91,5 +90,9 @@ void BraunnerTree::getAllCollidingtrieanglesInGivenPoint(std::list<Triangle> &_l
 
 BraunnerTree::~BraunnerTree() {
 	// TODO Auto-generated destructor stub
+	delete nodeObjects;
+	for (int i =0 ; i<8 ;i++){
+		delete daughters[i];
+	}
 }
 
